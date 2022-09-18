@@ -1,16 +1,10 @@
-node {
-    stage('Build Container'){
-        agent{
-            docker{
-                image 'node:lts-bullseye-slim'
-                args '-p 3000:3000'
-            }
+node(){
+    docker.image('node:lts-bullseye-slim').inside {
+        stage('Build') {
+            sh 'npm install'
         }
-    }
-    stage('Build') {
-        sh 'npm install'
-    }
-    stage('Test') {
-        sh './jenkins/scripts/test.sh' 
+        stage('Test') {
+            sh './jenkins/scripts/test.sh'
+        }
     }
 }
